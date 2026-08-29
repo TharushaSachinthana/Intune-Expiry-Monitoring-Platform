@@ -1,0 +1,55 @@
+{
+  "_comment": "VPP Token Resource Definition (Phase 8 — Future)",
+  "_description": "Defines monitoring for Apple Volume Purchase Program (VPP) tokens used for managed app deployment.",
+  "_version": "1.0.0",
+
+  "resourceType": "VPPToken",
+  "displayName": "Apple Volume Purchase Program (VPP) Token",
+  "description": "VPP tokens authorize Microsoft Intune to deploy and manage apps purchased through Apple Business Manager's volume purchase program.",
+  "enabled": false,
+
+  "graph": {
+    "endpoint": "/deviceAppManagement/vppTokens",
+    "apiVersion": "v1.0",
+    "method": "GET",
+    "requiredPermissions": [
+      "DeviceManagementApps.Read.All"
+    ],
+    "responseType": "collection"
+  },
+
+  "properties": {
+    "expirationDateField": "expirationDateTime",
+    "displayNameField": "organizationName",
+    "lastModifiedField": "lastModifiedDateTime",
+    "stateField": "state",
+    "tokenActionResultsField": "tokenActionResults"
+  },
+
+  "renewalWindow": 30,
+
+  "businessImpact": {
+    "summary": "VPP token expiry prevents Intune from deploying or updating managed apps purchased through Apple Business Manager.",
+    "dependencyChain": [
+      "VPP Token",
+      "Apple Business Manager App Licenses",
+      "Intune App Deployment",
+      "Managed App Distribution",
+      "End-User Application Access"
+    ],
+    "affectedDeviceTypes": ["iOS", "iPadOS", "macOS"],
+    "incidentSeverity": "P2"
+  },
+
+  "renewalGuidance": {
+    "documentationUrl": "https://docs.microsoft.com/en-us/mem/intune/apps/vpp-apps-ios",
+    "steps": [
+      "Sign in to Apple Business Manager",
+      "Navigate to Settings > Payments and Billing > Apps and Books",
+      "Download a new server token",
+      "Navigate to Microsoft Intune Admin Center",
+      "Go to Apps > iOS/iPadOS > iOS VPP Tokens",
+      "Select the token and upload the new server token"
+    ]
+  }
+}

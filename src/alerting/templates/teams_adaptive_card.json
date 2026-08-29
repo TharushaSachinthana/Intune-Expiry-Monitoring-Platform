@@ -1,0 +1,66 @@
+{
+  "_comment": "Microsoft Teams Adaptive Card template for Intune expiry alerts. Used by Send-TeamsAlert.ps1.",
+  "type": "message",
+  "attachments": [
+    {
+      "contentType": "application/vnd.microsoft.card.adaptive",
+      "content": {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "type": "AdaptiveCard",
+        "version": "1.4",
+        "body": [
+          {
+            "type": "Container",
+            "style": "emphasis",
+            "items": [
+              {
+                "type": "TextBlock",
+                "text": "🔔 Intune Expiry Monitoring Platform",
+                "weight": "Bolder",
+                "size": "Small",
+                "color": "Accent"
+              },
+              {
+                "type": "TextBlock",
+                "text": "{{STATE_ICON}} {{HEALTH_LABEL}} — {{RESOURCE_NAME}}",
+                "size": "Large",
+                "weight": "Bolder",
+                "wrap": true
+              }
+            ]
+          },
+          {
+            "type": "FactSet",
+            "facts": [
+              { "title": "Resource",        "value": "{{RESOURCE_NAME}}" },
+              { "title": "Health State",    "value": "{{HEALTH_LABEL}}" },
+              { "title": "Days Remaining",  "value": "{{DAYS_REMAINING}} days" },
+              { "title": "Expires On",      "value": "{{EXPIRATION_DATE}}" },
+              { "title": "Action Required", "value": "{{ACTION_REQUIRED}}" },
+              { "title": "Description",     "value": "{{DESCRIPTION}}" }
+            ]
+          },
+          {
+            "type": "TextBlock",
+            "text": "Generated at {{GENERATED_AT}} · Intune Expiry Monitoring Platform",
+            "size": "Small",
+            "color": "Light",
+            "isSubtle": true
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.OpenUrl",
+            "title": "Open Intune Admin Center",
+            "url": "https://intune.microsoft.com"
+          },
+          {
+            "type": "Action.OpenUrl",
+            "title": "View Dashboard",
+            "url": "https://YOUR_DASHBOARD_URL"
+          }
+        ]
+      }
+    }
+  ]
+}

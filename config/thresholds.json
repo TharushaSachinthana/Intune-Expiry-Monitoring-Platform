@@ -1,0 +1,67 @@
+{
+  "_comment": "Intune Expiry Monitoring Platform — Threshold Configuration",
+  "_description": "Defines health state boundaries. Thresholds are evaluated in order from most severe to least severe.",
+  "_version": "1.0.0",
+
+  "thresholds": [
+    {
+      "state": "URGENT",
+      "label": "Urgent",
+      "minDays": 0,
+      "maxDays": 7,
+      "color": "#D73A49",
+      "hexBackground": "#2D0A0E",
+      "icon": "🔴",
+      "priority": 1,
+      "description": "Immediate action required. Asset expiry is imminent.",
+      "actionRequired": true,
+      "alertChannels": ["email", "teams", "servicenow"]
+    },
+    {
+      "state": "CRITICAL",
+      "label": "Critical",
+      "minDays": 8,
+      "maxDays": 30,
+      "color": "#E36209",
+      "hexBackground": "#2D1600",
+      "icon": "🟠",
+      "priority": 2,
+      "description": "Administrative action required within renewal window.",
+      "actionRequired": true,
+      "alertChannels": ["email", "teams"]
+    },
+    {
+      "state": "WARNING",
+      "label": "Warning",
+      "minDays": 31,
+      "maxDays": 90,
+      "color": "#F0AD4E",
+      "hexBackground": "#2D2000",
+      "icon": "🟡",
+      "priority": 3,
+      "description": "Plan renewal. Asset approaching expiry window.",
+      "actionRequired": false,
+      "alertChannels": ["email"]
+    },
+    {
+      "state": "HEALTHY",
+      "label": "Healthy",
+      "minDays": 91,
+      "maxDays": null,
+      "color": "#2EA44F",
+      "hexBackground": "#0A2D16",
+      "icon": "🟢",
+      "priority": 4,
+      "description": "Asset is valid and not approaching expiry.",
+      "actionRequired": false,
+      "alertChannels": []
+    }
+  ],
+
+  "renewalWindows": {
+    "APNsCertificate": 30,
+    "DEPToken": 60,
+    "VPPToken": 30,
+    "EnrollmentToken": 14
+  }
+}

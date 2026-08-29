@@ -1,0 +1,67 @@
+{
+  "_comment": "Microsoft Intune Certificate & Token Expiry Monitoring Platform — Central Configuration",
+  "_version": "1.0.0",
+
+  "platform": {
+    "name": "Intune Expiry Monitoring Platform",
+    "version": "1.0.0",
+    "description": "Proactive monitoring of Microsoft Intune management asset expiry",
+    "logLevel": "INFO",
+    "logPath": ".\\logs",
+    "reportOutputPath": ".\\dashboard\\data\\monitoring_report.json"
+  },
+
+  "authentication": {
+    "_comment": "Replace placeholder values with your Entra ID App Registration details. Never commit real secrets.",
+    "tenantId": "YOUR_TENANT_ID",
+    "clientId": "YOUR_CLIENT_ID",
+    "clientSecret": "YOUR_CLIENT_SECRET",
+    "scope": "https://graph.microsoft.com/.default",
+    "tokenEndpoint": "https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token",
+    "graphBaseUrl": "https://graph.microsoft.com/v1.0"
+  },
+
+  "monitoring": {
+    "enabledResources": [
+      "APNsCertificate"
+    ],
+    "futureResources": [
+      "DEPTokens",
+      "VPPTokens",
+      "EnrollmentTokens"
+    ],
+    "thresholdsConfigPath": ".\\config\\thresholds.json",
+    "resourceConfigPath": ".\\config\\resources"
+  },
+
+  "alerting": {
+    "enableEmail": false,
+    "enableTeams": false,
+    "enableServiceNow": false,
+    "alertOnHealthStates": ["WARNING", "CRITICAL", "URGENT"],
+    "teamsWebhookUrl": "YOUR_TEAMS_WEBHOOK_URL",
+    "email": {
+      "smtpServer": "smtp.office365.com",
+      "smtpPort": 587,
+      "senderAddress": "monitoring@yourdomain.com",
+      "recipientAddresses": ["admin@yourdomain.com"],
+      "useGraphSendMail": false,
+      "graphSendMailSender": "monitoring@yourdomain.com"
+    },
+    "serviceNow": {
+      "instanceUrl": "https://YOUR_INSTANCE.service-now.com",
+      "apiUser": "YOUR_SN_USER",
+      "apiPassword": "YOUR_SN_PASSWORD",
+      "defaultAssignmentGroup": "IT Operations",
+      "urgentPriority": 1,
+      "criticalPriority": 2,
+      "warningPriority": 3
+    }
+  },
+
+  "schedule": {
+    "_comment": "For Azure Automation, configure schedule in the Runbook. For local, use Windows Task Scheduler.",
+    "recommendedFrequency": "Daily",
+    "recommendedTime": "07:00"
+  }
+}

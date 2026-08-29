@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intune Expiry Alert: {{HEALTH_STATE}} — {{RESOURCE_NAME}}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: {{STATE_COLOR}};
+            color: #ffffff;
+            padding: 28px 32px;
+        }
+        .header h1 {
+            margin: 0 0 6px 0;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 4px;
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .body {
+            padding: 32px;
+        }
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+        .metric-label {
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .metric-value {
+            font-weight: 600;
+            font-size: 14px;
+            color: #111;
+        }
+        .days-highlight {
+            font-size: 36px;
+            font-weight: 800;
+            color: {{STATE_COLOR}};
+            text-align: center;
+            padding: 20px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        .days-label {
+            font-size: 13px;
+            color: #888;
+            font-weight: 400;
+        }
+        .action-box {
+            background: #fff8e1;
+            border-left: 4px solid {{STATE_COLOR}};
+            border-radius: 4px;
+            padding: 16px 20px;
+            margin: 20px 0;
+        }
+        .action-box p {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .cta-button {
+            display: block;
+            text-align: center;
+            background: #0078D4;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            margin: 24px 0 0 0;
+        }
+        .footer {
+            background: #f8f8f8;
+            padding: 20px 32px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #ebebeb;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="badge">{{HEALTH_STATE}}</div>
+        <h1>{{STATE_ICON}} Intune Expiry Alert</h1>
+        <p>{{RESOURCE_NAME}} requires attention</p>
+    </div>
+
+    <div class="body">
+        <div class="days-highlight">
+            {{DAYS_REMAINING}}
+            <div class="days-label">days remaining</div>
+        </div>
+
+        <div class="metric-row">
+            <span class="metric-label">Resource</span>
+            <span class="metric-value">{{RESOURCE_NAME}}</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Health State</span>
+            <span class="metric-value" style="color: {{STATE_COLOR}}">{{HEALTH_LABEL}}</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Expiration Date</span>
+            <span class="metric-value">{{EXPIRATION_DATE}}</span>
+        </div>
+        <div class="metric-row">
+            <span class="metric-label">Days Remaining</span>
+            <span class="metric-value">{{DAYS_REMAINING}} days</span>
+        </div>
+
+        <div class="action-box">
+            <p><strong>Required Action:</strong> {{DESCRIPTION}}</p>
+        </div>
+
+        <a href="https://intune.microsoft.com" class="cta-button">
+            Open Microsoft Intune Admin Center →
+        </a>
+    </div>
+
+    <div class="footer">
+        Generated at {{GENERATED_AT}} by the Intune Expiry Monitoring Platform<br>
+        Powered by Microsoft Graph API · Microsoft Entra ID · OAuth 2.0
+    </div>
+</div>
+</body>
+</html>

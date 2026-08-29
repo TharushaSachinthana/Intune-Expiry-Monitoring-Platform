@@ -1,0 +1,55 @@
+{
+  "_comment": "DEP / ABM Token Resource Definition (Phase 8 — Future)",
+  "_description": "Defines monitoring for Apple Device Enrollment Program (DEP) and Apple Business Manager (ABM) tokens.",
+  "_version": "1.0.0",
+
+  "resourceType": "DEPToken",
+  "displayName": "Apple Device Enrollment Program (DEP / ABM) Token",
+  "description": "DEP/ABM tokens authorize Microsoft Intune to manage Apple devices enrolled through Apple Business Manager or Apple School Manager.",
+  "enabled": false,
+
+  "graph": {
+    "endpoint": "/deviceManagement/depOnboardingSettings",
+    "apiVersion": "v1.0",
+    "method": "GET",
+    "requiredPermissions": [
+      "DeviceManagementServiceConfig.Read.All"
+    ],
+    "responseType": "collection"
+  },
+
+  "properties": {
+    "expirationDateField": "tokenExpirationDateTime",
+    "displayNameField": "tokenName",
+    "lastModifiedField": "lastModifiedDateTime",
+    "enrollmentTypeField": "appleIdentifier"
+  },
+
+  "renewalWindow": 60,
+
+  "businessImpact": {
+    "summary": "DEP token expiry prevents automatic enrollment of new Apple devices through ABM/ASM.",
+    "dependencyChain": [
+      "DEP/ABM Token",
+      "Apple Business Manager",
+      "Automated Device Enrollment",
+      "Zero-Touch Provisioning",
+      "New Device Management"
+    ],
+    "affectedDeviceTypes": ["iOS", "iPadOS", "macOS", "tvOS"],
+    "incidentSeverity": "P2"
+  },
+
+  "renewalGuidance": {
+    "documentationUrl": "https://docs.microsoft.com/en-us/mem/intune/enrollment/device-enrollment-program-enroll-ios",
+    "steps": [
+      "Navigate to Microsoft Intune Admin Center",
+      "Go to Devices > Enroll Devices > Apple Enrollment > Enrollment Program Tokens",
+      "Select the token to renew",
+      "Download the public key certificate",
+      "Sign in to Apple Business Manager with the Apple ID associated with the token",
+      "Download the new server token",
+      "Upload the new token to Intune"
+    ]
+  }
+}

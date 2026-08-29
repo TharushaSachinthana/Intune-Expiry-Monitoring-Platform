@@ -1,0 +1,60 @@
+{
+  "_comment": "APNs Certificate Resource Definition",
+  "_description": "Defines how the monitoring platform discovers and processes the Intune APNs certificate resource from Microsoft Graph.",
+  "_version": "1.0.0",
+
+  "resourceType": "APNsCertificate",
+  "displayName": "Apple Push Notification Service (APNs) Certificate",
+  "description": "The APNs certificate enables Microsoft Intune to communicate with Apple Push Notification Service for managing iOS, iPadOS, and macOS devices.",
+  "enabled": true,
+
+  "graph": {
+    "endpoint": "/deviceManagement/applePushNotificationCertificate",
+    "apiVersion": "v1.0",
+    "method": "GET",
+    "requiredPermissions": [
+      "DeviceManagementServiceConfig.Read.All"
+    ],
+    "responseType": "single"
+  },
+
+  "properties": {
+    "expirationDateField": "expirationDateTime",
+    "displayNameField": "appleIdentifier",
+    "topicField": "topicIdentifier",
+    "lastModifiedField": "lastModifiedDateTime",
+    "certificateUploadStatusField": "certificateUploadStatus",
+    "certificateSerialNumberField": "certificateSerialNumber"
+  },
+
+  "renewalWindow": 30,
+
+  "businessImpact": {
+    "summary": "APNs certificate expiry breaks Intune communication with all managed Apple devices.",
+    "dependencyChain": [
+      "APNs Certificate",
+      "Apple Push Notification Service",
+      "Intune Device Communication",
+      "Managed Apple Devices",
+      "Policy Delivery",
+      "Business Operations"
+    ],
+    "affectedDeviceTypes": ["iOS", "iPadOS", "macOS"],
+    "incidentSeverity": "P1",
+    "estimatedRecoveryTime": "4-8 hours after renewal"
+  },
+
+  "renewalGuidance": {
+    "renewalUrl": "https://intuneeducation.portal.azure.com",
+    "documentationUrl": "https://docs.microsoft.com/en-us/mem/intune/enrollment/apple-mdm-push-certificate-get",
+    "steps": [
+      "Navigate to Microsoft Intune Admin Center",
+      "Go to Devices > Enroll Devices > Apple MDM Push Certificate",
+      "Download the Certificate Signing Request (CSR)",
+      "Sign in to Apple Push Certificates Portal with the Apple ID used previously",
+      "Renew the certificate using the downloaded CSR",
+      "Download the renewed certificate (.pem file)",
+      "Upload the renewed certificate to Intune"
+    ]
+  }
+}

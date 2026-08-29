@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Microsoft Intune Certificate and Token Expiry Monitoring Platform — Real-time visibility into management asset expiry risk.">
+    <title>Intune Expiry Monitoring Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                        <rect width="13" height="13" fill="#F25022"/>
+                        <rect x="15" width="13" height="13" fill="#7FBA00"/>
+                        <rect y="15" width="13" height="13" fill="#00A4EF"/>
+                        <rect x="15" y="15" width="13" height="13" fill="#FFB900"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">Intune Monitor</span>
+                    <span class="brand-sub">Expiry Monitoring Platform</span>
+                </div>
+            </div>
+            <div class="header-meta">
+                <div class="status-pill" id="overall-status-pill">
+                    <span class="status-dot" id="status-dot"></span>
+                    <span id="overall-status-text">Loading...</span>
+                </div>
+                <div class="last-updated" id="last-updated">—</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <main class="main-content">
+
+        <!-- HERO BANNER -->
+        <section class="hero-section" id="hero-section" aria-label="Platform overview">
+            <div class="hero-inner">
+                <div class="hero-left">
+                    <h1 class="hero-title">Certificate &amp; Token<br>Expiry Monitoring</h1>
+                    <p class="hero-subtitle">Proactive risk detection for Microsoft Intune management assets. Powered by Microsoft Graph API and Entra ID.</p>
+                    <div class="hero-flow">
+                        <span class="flow-node">Resource</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-node">Metric</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-node">Threshold</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-node active">Alert</span>
+                    </div>
+                </div>
+                <div class="hero-right">
+                    <div class="summary-grid" id="summary-grid">
+                        <div class="summary-card urgent" id="sum-urgent">
+                            <div class="summary-count" id="count-urgent">—</div>
+                            <div class="summary-label">Urgent</div>
+                        </div>
+                        <div class="summary-card critical" id="sum-critical">
+                            <div class="summary-count" id="count-critical">—</div>
+                            <div class="summary-label">Critical</div>
+                        </div>
+                        <div class="summary-card warning" id="sum-warning">
+                            <div class="summary-count" id="count-warning">—</div>
+                            <div class="summary-label">Warning</div>
+                        </div>
+                        <div class="summary-card healthy" id="sum-healthy">
+                            <div class="summary-count" id="count-healthy">—</div>
+                            <div class="summary-label">Healthy</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESOURCES SECTION -->
+        <section class="resources-section" aria-label="Monitored resources">
+            <div class="section-header">
+                <h2 class="section-title">Monitored Resources</h2>
+                <div class="section-actions">
+                    <button class="filter-btn active" id="filter-all" data-filter="all" aria-pressed="true">All</button>
+                    <button class="filter-btn" id="filter-urgent" data-filter="URGENT">Urgent</button>
+                    <button class="filter-btn" id="filter-critical" data-filter="CRITICAL">Critical</button>
+                    <button class="filter-btn" id="filter-warning" data-filter="WARNING">Warning</button>
+                    <button class="filter-btn" id="filter-healthy" data-filter="HEALTHY">Healthy</button>
+                </div>
+            </div>
+
+            <div class="resource-grid" id="resource-grid">
+                <!-- Cards injected by app.js -->
+                <div class="loading-spinner" id="loading-spinner" aria-label="Loading resources">
+                    <div class="spinner-ring"></div>
+                    <span>Loading monitoring data...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- DEPENDENCY CHAIN SECTION -->
+        <section class="chain-section" aria-label="APNs dependency chain">
+            <div class="section-header">
+                <h2 class="section-title">Business Impact — APNs Dependency Chain</h2>
+            </div>
+            <div class="chain-container">
+                <div class="chain-node" id="chain-apns">
+                    <div class="chain-icon">🔐</div>
+                    <div class="chain-label">APNs Certificate</div>
+                    <div class="chain-desc">Intune management identity</div>
+                </div>
+                <div class="chain-arrow">↓</div>
+                <div class="chain-node">
+                    <div class="chain-icon">🍎</div>
+                    <div class="chain-label">Apple Push Notification</div>
+                    <div class="chain-desc">Apple communication channel</div>
+                </div>
+                <div class="chain-arrow">↓</div>
+                <div class="chain-node">
+                    <div class="chain-icon">📱</div>
+                    <div class="chain-label">Device Communication</div>
+                    <div class="chain-desc">iOS · iPadOS · macOS</div>
+                </div>
+                <div class="chain-arrow">↓</div>
+                <div class="chain-node">
+                    <div class="chain-icon">📋</div>
+                    <div class="chain-label">Policy Delivery</div>
+                    <div class="chain-desc">Configuration profiles</div>
+                </div>
+                <div class="chain-arrow">↓</div>
+                <div class="chain-node critical-node" id="chain-ops">
+                    <div class="chain-icon">🏢</div>
+                    <div class="chain-label">Business Operations</div>
+                    <div class="chain-desc">End user productivity</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEVERITY MODEL SECTION -->
+        <section class="severity-section" aria-label="Severity model">
+            <div class="section-header">
+                <h2 class="section-title">Health State Model</h2>
+            </div>
+            <div class="severity-grid">
+                <div class="severity-card healthy-card">
+                    <div class="sev-icon">🟢</div>
+                    <div class="sev-state">HEALTHY</div>
+                    <div class="sev-range">&gt; 90 days</div>
+                    <div class="sev-action">No action required</div>
+                </div>
+                <div class="severity-card warning-card">
+                    <div class="sev-icon">🟡</div>
+                    <div class="sev-state">WARNING</div>
+                    <div class="sev-range">31 – 90 days</div>
+                    <div class="sev-action">Plan renewal</div>
+                </div>
+                <div class="severity-card critical-card">
+                    <div class="sev-icon">🟠</div>
+                    <div class="sev-state">CRITICAL</div>
+                    <div class="sev-range">8 – 30 days</div>
+                    <div class="sev-action">Action required</div>
+                </div>
+                <div class="severity-card urgent-card">
+                    <div class="sev-icon">🔴</div>
+                    <div class="sev-state">URGENT</div>
+                    <div class="sev-range">≤ 7 days</div>
+                    <div class="sev-action">Immediate action</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARCHITECTURE SECTION -->
+        <section class="arch-section" aria-label="Architecture overview">
+            <div class="section-header">
+                <h2 class="section-title">Monitoring Architecture</h2>
+            </div>
+            <div class="arch-layers">
+                <div class="arch-layer" id="arch-collection">
+                    <div class="arch-layer-number">01</div>
+                    <div class="arch-layer-content">
+                        <div class="arch-layer-title">Data Collection</div>
+                        <div class="arch-layer-desc">Microsoft Graph API · OAuth 2.0 · Entra ID · Access Tokens</div>
+                    </div>
+                </div>
+                <div class="arch-connector">↓</div>
+                <div class="arch-layer" id="arch-processing">
+                    <div class="arch-layer-number">02</div>
+                    <div class="arch-layer-content">
+                        <div class="arch-layer-title">Processing</div>
+                        <div class="arch-layer-desc">JSON Parsing · Property Extraction · Metadata Normalization</div>
+                    </div>
+                </div>
+                <div class="arch-connector">↓</div>
+                <div class="arch-layer" id="arch-metrics">
+                    <div class="arch-layer-number">03</div>
+                    <div class="arch-layer-content">
+                        <div class="arch-layer-title">Metrics</div>
+                        <div class="arch-layer-desc">Days Remaining · Renewal Window · Trend Analysis</div>
+                    </div>
+                </div>
+                <div class="arch-connector">↓</div>
+                <div class="arch-layer" id="arch-evaluation">
+                    <div class="arch-layer-number">04</div>
+                    <div class="arch-layer-content">
+                        <div class="arch-layer-title">Evaluation</div>
+                        <div class="arch-layer-desc">Threshold Comparison · Health State Classification</div>
+                    </div>
+                </div>
+                <div class="arch-connector">↓</div>
+                <div class="arch-layer arch-layer-active" id="arch-alerting">
+                    <div class="arch-layer-number">05</div>
+                    <div class="arch-layer-content">
+                        <div class="arch-layer-title">Alerting</div>
+                        <div class="arch-layer-desc">Email · Microsoft Teams · ServiceNow · Dashboard</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- RESOURCE CARD MODAL -->
+    <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-card" id="modal-card">
+            <button class="modal-close" id="modal-close" aria-label="Close modal">✕</button>
+            <div class="modal-header" id="modal-header">
+                <div class="modal-icon" id="modal-icon"></div>
+                <div>
+                    <div class="modal-state" id="modal-state"></div>
+                    <h3 class="modal-title" id="modal-title"></h3>
+                </div>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>Microsoft Intune Expiry Monitoring Platform</span>
+            <span class="footer-sep">·</span>
+            <span>Powered by Microsoft Graph API · Entra ID · OAuth 2.0</span>
+            <span class="footer-sep">·</span>
+            <span>Resource → Metric → Threshold → Alert</span>
+        </div>
+    </footer>
+
+    <script src="assets/app.js"></script>
+</body>
+</html>
